@@ -9,7 +9,7 @@ from app.api.routers.appoointments import router as appointments_router
 from app.api.routers.auth import router as auth_router
 from app.api.routers.rooms import router as rooms_router
 
-from app.use_cases.exceptions import DoctorNotFoundError
+from app.use_cases.exceptions import DomainException
 import logging
 
 from fastapi import Request
@@ -55,9 +55,9 @@ async def root():
 async def health_check():
     return {"status": "healthy", "database": "postgresql"}
 
-@app.exception_handler(DoctorNotFoundError)
-async def unicorn_exception_handler(request: Request, exc: DoctorNotFoundError):
+@app.exception_handler(DomainException)
+async def domain_exception_handler(request: Request, exc: DomainException):
     return JSONResponse(
-        status_code=404,
+        status_code=exc.status_code,
         content={"message": str(exc)},
     )

@@ -3,13 +3,15 @@ from datetime import datetime, timedelta, timezone
 from fastapi import HTTPException, status
 from app.domain.entities.user import User, UserRole
 from app.repository.user_repository import UserRepository
-from app.core.security import verify_password, get_password_hash, create_access_token, create_refresh_token, create_reset_token, verify_reset_token, verify_refresh_token, revoke_token
+from app.core.security import create_access_token, create_refresh_token, create_reset_token, verify_reset_token, verify_refresh_token, revoke_token
+from app.domain.interfaces.password_hasher import PasswordHasher
 from app.core.token_storage import token_storage
 from app.core.email import send_reset_email
 
 class AuthService:
-    def __init__(self, user_repository: UserRepository):
+    def __init__(self, user_repository: UserRepository, password_hasher: PasswordHasher):
         self.user_repository = user_repository
+        self.password_hasher = password_hasher
 
     async def authenticate_user(self, email: str, password: str) -> User:
         user = await self.user_repository.get_by_email(email)
@@ -18,7 +20,7 @@ class AuthService:
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Incorrect email or password"
             )
-        if not verify_password(password, user.hashed_password):
+        if not self.password_hasher.verify(password, user.hashed_password):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Incorrect email or password"
@@ -59,7 +61,7 @@ class AuthService:
             )
         
         # Создаем нового пользователя
-        hashed_password = get_password_hash(password)
+        hashed_password = self.password_hasher.hash(password)
         user = User(
             name=name,
             surname=surname,
@@ -144,7 +146,7 @@ class AuthService:
             )
         
         # Обновляем пароль и очищаем токен
-        hashed_password = get_password_hash(new_password)
+        hashed_password = self.password_hasher.hash(new_password)
         await self.user_repository.update(
             str(user.id),
             hashed_password=hashed_password,

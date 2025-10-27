@@ -1,6 +1,7 @@
 from uuid import UUID
 from app.domain.entities.user import User
 from app.repository.user_repository import UserRepository
+from app.domain.interfaces.password_hasher import PasswordHasher
 from app.use_cases.exceptions import UserNotFoundError
 
 class GetUser:
@@ -14,12 +15,14 @@ class GetUser:
         return user
 
 class CreateUser:
-    def __init__(self, user_repository: UserRepository):
+    def __init__(self, user_repository: UserRepository, password_hasher: PasswordHasher):
         self.user_repository = user_repository
+        self.password_hasher = password_hasher
 
-    async def __call__(self, user: User) -> User:
-        await self.user_repository.add(user)  # Это равносильно
-                            # await MongoDoctorRepository().add(doctor)
+    async def __call__(self, user_data, plain_password: str) -> User:
+        hashed_password = self.password_hasher.hash(plain_password)
+        user = user_data.to_entity(hashed_password)
+        await self.user_repository.add(user)
         return user
 
 class ListUsers:

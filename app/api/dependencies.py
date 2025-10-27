@@ -5,6 +5,7 @@ from app.adapters.postgres_user_repository import PostgresUserRepository
 from app.adapters.postgres_appointment_repository import PostgresAppointmentRepository
 from app.adapters.postgres_doctor_repository import PostgresDoctorRepository
 from app.adapters.postgres_room_repository import PostgresRoomRepository
+from app.adapters.password_hasher import SHA256PasswordHasher
 from app.repository.doctor_repository import DoctorRepository
 from app.repository.user_repository import UserRepository
 from app.repository.appointment_repository import AppointmentRepository
@@ -59,7 +60,7 @@ async def get_user_use_case(
 async def create_user_use_case(
     repository: UserRepository = Depends(get_user_repository)
 ) -> CreateUser:
-    return CreateUser(repository)
+    return CreateUser(repository, SHA256PasswordHasher())
 
 async def list_users_use_case(
     repository: UserRepository = Depends(get_user_repository)

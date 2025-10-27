@@ -32,7 +32,7 @@ async def create_user(
     user_data: UserItemCreate,
     use_case: CreateUser = Depends(create_user_use_case)
 ):
-    return await use_case(user_data.to_entity())
+    return await use_case(user_data, user_data.password)
 
 @router.get("/users", response_model=list[UserItem])
 async def list_users(

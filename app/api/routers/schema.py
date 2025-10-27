@@ -113,9 +113,8 @@ class UserItemCreate(BaseUser):
     password: str = Field(exclude=True, min_length=8)
     role: UserRole | None = None
     
-    def to_entity(self):
+    def to_entity(self, hashed_password: str):
         from app.domain.entities.user import User
-        from app.core.security import get_password_hash
         return User(
             name=self.name,
             surname=self.surname,
@@ -123,7 +122,7 @@ class UserItemCreate(BaseUser):
             age=self.age,
             phone=self.phone,
             role=self.role or UserRole.user,
-            hashed_password=get_password_hash(self.password)
+            hashed_password=hashed_password
         )
 
 
