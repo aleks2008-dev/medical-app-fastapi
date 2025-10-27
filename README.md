@@ -114,22 +114,31 @@ A comprehensive medical management system demonstrating **Clean Architecture** p
 
 ## 📱 Telegram Bot
 
-The project includes a Telegram bot for alternative access:
+The project includes a Telegram bot for alternative access built with **aiogram 3.3.0**:
 
-1. **Setup bot**
+### Features
+- 👨⚕️ Browse doctors and specializations
+- 📅 View appointment schedules  
+- 🔐 Secure authentication with medical app
+- 💬 Interactive inline keyboards
+- 🔄 Real-time data integration
+
+### Quick Setup
+
+1. **Get bot token from [@BotFather](https://t.me/botfather)**
+2. **Configure environment**
    ```bash
    cd med-bot
-   pip install -r requirements.txt
+   cp .env.example .env
+   # Edit .env with your bot token
    ```
-
-2. **Configure**
-   - Get bot token from @BotFather
-   - Update `.env` file with your token
-
-3. **Run bot**
+3. **Install and run**
    ```bash
+   pip install -r requirements.txt
    python bot.py
    ```
+
+📖 **[Full Bot Documentation](med-bot/README.md)**
 
 ## 🧪 Testing
 
