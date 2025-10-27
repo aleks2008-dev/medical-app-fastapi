@@ -115,6 +115,7 @@ class UserItemCreate(BaseUser):
     
     def to_entity(self):
         from app.domain.entities.user import User
+        from app.core.security import get_password_hash
         return User(
             name=self.name,
             surname=self.surname,
@@ -122,7 +123,7 @@ class UserItemCreate(BaseUser):
             age=self.age,
             phone=self.phone,
             role=self.role or UserRole.user,
-            hashed_password=self.password  # В реальном приложении нужно хешировать
+            hashed_password=get_password_hash(self.password)
         )
 
 
