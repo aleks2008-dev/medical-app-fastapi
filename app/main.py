@@ -43,7 +43,7 @@ app = FastAPI(title="Medical App", version="1.0.0", lifespan=lifespan)
 app.include_router(auth_router, prefix="/api/v1/auth", tags=["auth"])
 app.include_router(doctors_router, prefix="/api/v1", tags=["doctors"])
 app.include_router(users_router, prefix="/api/v1", tags=["users"])
-app.include_router(appointments_router, prefix="/api/v1/tags=["appointments"])
+app.include_router(appointments_router, prefix="/api/v1", tags=["appointments"])
 app.include_router(rooms_router, prefix="/api/v1", tags=["rooms"])
 
 
