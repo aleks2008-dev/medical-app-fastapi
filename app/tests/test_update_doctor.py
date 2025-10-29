@@ -37,11 +37,11 @@ def update_doctor_use_case(doctor_repository):
 
 @pytest.mark.asyncio
 async def test_update_doctor_success(update_doctor_use_case, doctor_repository):
-    # Создаем врача
+    # Create doctor
     doctor = create_doctor(name="John", surname="Doe")
     await doctor_repository.add(doctor)
     
-    # Обновляем врача
+    # Update doctor
     updated_doctor = await update_doctor_use_case(
         doctor_id=doctor.id,
         name="Jane",
@@ -52,7 +52,7 @@ async def test_update_doctor_success(update_doctor_use_case, doctor_repository):
     assert updated_doctor.name == "Jane"
     assert updated_doctor.age == 35
     assert updated_doctor.specialization == "Cardiology"
-    assert updated_doctor.surname == "Doe"  # Не изменилось
+    assert updated_doctor.surname == "Doe"  # Unchanged
 
 @pytest.mark.asyncio
 async def test_update_nonexistent_doctor(update_doctor_use_case):
@@ -66,27 +66,27 @@ async def test_update_nonexistent_doctor(update_doctor_use_case):
 
 @pytest.mark.asyncio
 async def test_update_doctor_partial(update_doctor_use_case, doctor_repository):
-    # Создаем врача
+    # Create doctor
     doctor = create_doctor(name="John", surname="Doe", age=30)
     await doctor_repository.add(doctor)
     
-    # Обновляем только имя
+    # Update only name
     updated_doctor = await update_doctor_use_case(
         doctor_id=doctor.id,
         name="Jane"
     )
     
     assert updated_doctor.name == "Jane"
-    assert updated_doctor.surname == "Doe"  # Не изменилось
-    assert updated_doctor.age == 30  # Не изменилось
+    assert updated_doctor.surname == "Doe"  # Unchanged
+    assert updated_doctor.age == 30  # Unchanged
 
 @pytest.mark.asyncio
 async def test_update_doctor_category(update_doctor_use_case, doctor_repository):
-    # Создаем врача
+    # Create doctor
     doctor = create_doctor(category=CategoryEnum.FIRST)
     await doctor_repository.add(doctor)
     
-    # Обновляем категорию
+    # Update category
     updated_doctor = await update_doctor_use_case(
         doctor_id=doctor.id,
         category=CategoryEnum.HIGHEST

@@ -28,7 +28,7 @@ async def create_refresh_token(data: dict):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, settings.secret_key, algorithm=settings.algorithm)
     
-    # Сохраняем токен в Redis
+    # Store token in Redis
     user_id = data.get("sub")
     if user_id:
         await token_storage.store_refresh_token(user_id, encoded_jwt)
@@ -37,7 +37,7 @@ async def create_refresh_token(data: dict):
 
 async def verify_token(token: str):
     try:
-        # Проверяем, не в черном списке ли токен
+        # Check if token is blacklisted
         if await token_storage.is_token_blacklisted(token):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,

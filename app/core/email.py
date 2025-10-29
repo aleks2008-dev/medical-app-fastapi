@@ -45,5 +45,5 @@ async def send_reset_email(email: str, reset_token: str):
         print(f"Reset email sent to {email}")
     except Exception as e:
         print(f"Failed to send email to {email}: {e}")
-        # В продакшене здесь должно быть логирование
+        # In production this should be logging
         raise

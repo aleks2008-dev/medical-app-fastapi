@@ -20,7 +20,7 @@ async def test_create_doctor_use_case(doctor_repository):
     assert doctor.age == 31
     assert doctor.specialization == "Невролог"
     
-    # Проверяем, что doctor сохранился в репозитории
+    # Check that doctor was saved in repository
     saved_doctor = await doctor_repository.get(id=doctor.id)
     assert saved_doctor is not None
     assert saved_doctor.name == "Елена"
@@ -31,12 +31,12 @@ async def test_list_doctors_with_pagination(doctor_repository):
     
     list_doctors_use_case = ListDoctors(doctor_repository)
     
-    # Добавляем 3 докторов
+    # Add 3 doctors
     for i in range(3):
         doctor = create_doctor(name=f"Доктор{i}")
         await doctor_repository.add(doctor)
     
-    # Тестируем пагинацию
+    # Test pagination
     doctors_page1 = await list_doctors_use_case(skip=0, limit=2)
     doctors_page2 = await list_doctors_use_case(skip=2, limit=2)
     

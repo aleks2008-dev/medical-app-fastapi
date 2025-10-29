@@ -18,8 +18,8 @@ class TokenStorage:
         redis_client = await self._get_redis()
         key = f"refresh_token:{user_id}"
         
-        # Сохраняем токен с TTL равным времени жизни refresh токена
-        ttl = settings.refresh_token_expire_days * 24 * 60 * 60  # в секундах
+        # Store token with TTL equal to refresh token lifetime
+        ttl = settings.refresh_token_expire_days * 24 * 60 * 60  # in seconds
         
         token_data = {
             "token": token,
@@ -51,7 +51,7 @@ class TokenStorage:
         redis_client = await self._get_redis()
         key = f"blacklist:{token}"
         
-        # TTL до истечения токена
+        # TTL until token expiration
         ttl = int((exp - datetime.utcnow()).total_seconds())
         if ttl > 0:
             await redis_client.setex(key, ttl, "revoked")
@@ -67,7 +67,7 @@ class TokenStorage:
         redis_client = await self._get_redis()
         key = f"session:{user_id}"
         
-        # Сессия живет столько же, сколько refresh токен
+        # Session lives as long as refresh token
         ttl = settings.refresh_token_expire_days * 24 * 60 * 60
         
         await redis_client.setex(key, ttl, json.dumps(session_data))
@@ -88,5 +88,5 @@ class TokenStorage:
         await redis_client.delete(f"session:{user_id}")
         await redis_client.delete(f"refresh_token:{user_id}")
 
-# Глобальный экземпляр
+# Global instance
 token_storage = TokenStorage()

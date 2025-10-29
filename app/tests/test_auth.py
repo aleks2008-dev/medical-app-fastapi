@@ -54,7 +54,7 @@ async def test_register_user(auth_service):
 
 @pytest.mark.asyncio
 async def test_register_existing_user(auth_service):
-    # Регистрируем пользователя
+    # Register user
     await auth_service.register_user(
         name="John",
         surname="Doe",
@@ -62,7 +62,7 @@ async def test_register_existing_user(auth_service):
         password="password123"
     )
     
-    # Пытаемся зарегистрировать с тем же email
+    # Try to register with the same email
     with pytest.raises(HTTPException) as exc_info:
         await auth_service.register_user(
             name="Jane",
@@ -75,7 +75,7 @@ async def test_register_existing_user(auth_service):
 
 @pytest.mark.asyncio
 async def test_authenticate_user(auth_service):
-    # Создаем пользователя
+    # Create user
     user = await auth_service.register_user(
         name="John",
         surname="Doe",
@@ -83,7 +83,7 @@ async def test_authenticate_user(auth_service):
         password="password123"
     )
     
-    # Аутентифицируем
+    # Authenticate
     authenticated_user = await auth_service.authenticate_user("john@example.com", "password123")
     assert authenticated_user.id == user.id
 

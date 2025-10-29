@@ -6,7 +6,7 @@ from unittest.mock import patch
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
 
-# Патчим security для тестов
+# Patch security for tests
 from app.core.test_security import get_password_hash, verify_password
 patch('app.use_cases.auth.get_password_hash', get_password_hash).start()
 patch('app.use_cases.auth.verify_password', verify_password).start()

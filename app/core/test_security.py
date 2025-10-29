@@ -5,7 +5,7 @@ from passlib.context import CryptContext
 from fastapi import HTTPException, status
 from app.core.config import settings
 
-# Для тестов используем pbkdf2_sha256 вместо bcrypt
+# Use pbkdf2_sha256 instead of bcrypt for tests
 pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
