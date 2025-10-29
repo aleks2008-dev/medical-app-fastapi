@@ -19,7 +19,9 @@ security = HTTPBearer()
 router = APIRouter()
 
 async def get_auth_service(user_repository = Depends(get_user_repository)) -> AuthService:
-    return AuthService(user_repository)
+    from app.adapters.password_hasher import SHA256PasswordHasher
+    password_hasher = SHA256PasswordHasher()
+    return AuthService(user_repository, password_hasher)
 
 @router.post("/register", response_model=UserPublic)
 async def register(

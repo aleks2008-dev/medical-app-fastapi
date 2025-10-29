@@ -34,9 +34,17 @@ class MockUserRepository:
 def user_repository():
     return MockUserRepository()
 
+class MockPasswordHasher:
+    def hash(self, password: str) -> str:
+        return get_password_hash(password)
+    
+    def verify(self, password: str, hashed: str) -> bool:
+        return verify_password(password, hashed)
+
 @pytest.fixture
 def auth_service(user_repository):
-    return AuthService(user_repository)
+    password_hasher = MockPasswordHasher()
+    return AuthService(user_repository, password_hasher)
 
 @pytest.mark.asyncio
 async def test_register_user(auth_service):

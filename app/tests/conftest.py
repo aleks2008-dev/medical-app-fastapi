@@ -2,18 +2,15 @@ import sys
 import pytest
 import os
 from unittest.mock import patch
+from app.core.test_security import get_password_hash, verify_password
+from app.use_cases.crud_doctor import GetDoctor
 
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
 
 # Patch security for tests
-from app.core.test_security import get_password_hash, verify_password
-patch('app.use_cases.auth.get_password_hash', get_password_hash).start()
-patch('app.use_cases.auth.verify_password', verify_password).start()
 patch('app.core.security.get_password_hash', get_password_hash).start()
 patch('app.core.security.verify_password', verify_password).start()
-
-from app.use_cases.crud_doctor import GetDoctor
 
 class InMemoryDoctorRepository:
     def __init__(self):
