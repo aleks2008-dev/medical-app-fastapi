@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from uuid import UUID
 from app.domain.entities.user import User, UserRole
 
@@ -50,15 +49,15 @@ async def update_user(
     use_case: UpdateUser = Depends(update_user_use_case),
     current_user: User = Depends(get_current_active_user)
 ):
-    # Обычные пользователи могут редактировать только себя
-    # Админы могут редактировать всех
+    # Regular users can only edit themselves
+    # Admins can edit everyone
     if current_user.role != UserRole.admin and current_user.id != user_id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not enough permissions"
         )
     
-    # Обычные пользователи не могут менять роль
+    # Regular users cannot change role
     if current_user.role != UserRole.admin and user_data.role is not None:
         user_data.role = None
     
@@ -80,8 +79,8 @@ async def delete_user(
     use_case: DeleteUser = Depends(delete_user_use_case),
     current_user: User = Depends(get_current_active_user)
 ):
-    # Обычные пользователи могут удалять только себя
-    # Администраторы могут удалять всех
+    # Regular users can only delete themselves
+    # Administrators can delete everyone
     if current_user.role != UserRole.admin and current_user.id != user_id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

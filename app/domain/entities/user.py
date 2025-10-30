@@ -2,7 +2,6 @@ from uuid import UUID, uuid4
 from dataclasses import dataclass, field
 from enum import StrEnum
 from datetime import datetime
-from typing import Optional
 
 class UserRole(StrEnum):
     user = "user"

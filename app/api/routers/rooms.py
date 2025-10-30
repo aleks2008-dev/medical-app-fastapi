@@ -1,6 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, Request
-from fastapi.responses import JSONResponse
-from uuid import UUID
+from fastapi import APIRouter, Depends
 
 from app.use_cases.crud_room import CreateRoom
 from app.api.dependencies import create_room_use_case

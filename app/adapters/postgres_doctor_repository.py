@@ -47,7 +47,7 @@ class PostgresDoctorRepository(DoctorRepository):
             self.session.add(doctor_db)
             await self.session.commit()
             
-        except Exception as e:
+        except Exception:
             await self.session.rollback()
             raise DatabaseException
 

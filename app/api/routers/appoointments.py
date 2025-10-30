@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, Request
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends, Query
 from uuid import UUID
 
 from app.use_cases.crud_appointment import GetAppointment, CreateAppointment, ListAppointments
@@ -10,10 +9,10 @@ from app.api.dependencies import (
     list_appointments_use_case,
     delete_appointment_use_case
 )
-from app.api.auth import get_current_active_user, get_admin_user
+from app.api.auth import get_current_active_user
 
 from app.api.routers.schema import AppointmentItemCreate, AppointmentItem
-from app.domain.entities.user import User, UserRole
+from app.domain.entities.user import User
 
 router = APIRouter()
 

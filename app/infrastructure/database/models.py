@@ -1,5 +1,5 @@
 import uuid
-from datetime import date, datetime
+from datetime import date as DateType, datetime
 from enum import StrEnum
 
 from sqlalchemy import UUID, Boolean, Date, DateTime, ForeignKey, String
@@ -70,7 +70,7 @@ class AppointmentORM(Base):
     """ORM model representing an appointment in the database."""
     __tablename__ = "appointments"
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    date: Mapped[date] = mapped_column(Date)
+    date: Mapped[DateType] = mapped_column(Date)
     doctor_id: Mapped[UUID] = mapped_column(ForeignKey('doctors.id', ondelete="CASCADE"))
     doctor: Mapped["DoctorORM"] = relationship(back_populates="appointments")
     user_id: Mapped[UUID] = mapped_column(ForeignKey('users.id', ondelete="CASCADE"))

@@ -61,3 +61,4 @@ async def domain_exception_handler(request: Request, exc: DomainException):
         status_code=exc.status_code,
         content={"message": str(exc)},
     )
+

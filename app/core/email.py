@@ -4,7 +4,7 @@ from email.mime.multipart import MIMEMultipart
 from app.core.config import settings
 
 async def send_reset_email(email: str, reset_token: str):
-    """Отправка email для сброса пароля"""
+    """Send email for reset password"""
     
     if not settings.smtp_username or not settings.smtp_password:
         print(f"Email sending disabled. Reset token for {email}: {reset_token}")

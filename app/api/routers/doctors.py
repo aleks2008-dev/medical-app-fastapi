@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, Request
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends,  Query
 from uuid import UUID
 
 from app.use_cases.crud_doctor import GetDoctor, CreateDoctor, ListDoctors

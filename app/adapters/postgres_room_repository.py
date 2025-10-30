@@ -1,7 +1,4 @@
-from typing import Any, Optional, List
-from uuid import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 
 from app.repository.room_repository import RoomRepository
 from app.domain.entities.room import Room
@@ -26,6 +23,6 @@ class PostgresRoomRepository(RoomRepository):
             self.session.add(room_db)
             await self.session.commit()
             
-        except Exception as e:
+        except Exception:
             await self.session.rollback()
             raise DatabaseException

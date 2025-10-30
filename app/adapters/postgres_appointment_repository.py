@@ -45,7 +45,7 @@ class PostgresAppointmentRepository(AppointmentRepository):
             self.session.add(appointment_db)
             await self.session.commit()
             
-        except Exception as e:
+        except Exception:
             await self.session.rollback()
             raise DatabaseException
 
