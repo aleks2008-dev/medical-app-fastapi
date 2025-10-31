@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from app.use_cases.auth import AuthService
 from app.api.auth import get_user_repository
 from app.api.routers.schema import (
-    UserItemCreate, 
+    UserRegister, 
     TokenData, 
     RefreshTokenRequest, 
     PasswordResetRequest, 
@@ -25,7 +25,7 @@ async def get_auth_service(user_repository = Depends(get_user_repository)) -> Au
 
 @router.post("/register", response_model=UserPublic)
 async def register(
-    user_data: UserItemCreate,
+    user_data: UserRegister,
     auth_service: AuthService = Depends(get_auth_service)
 ):
     user = await auth_service.register_user(

@@ -29,7 +29,8 @@ async def get_user(
 @router.post("/users", response_model=UserItem)
 async def create_user(
     user_data: UserItemCreate,
-    use_case: CreateUser = Depends(create_user_use_case)
+    use_case: CreateUser = Depends(create_user_use_case),
+    current_user: User = Depends(get_admin_user)  # Only admins can create users with roles
 ):
     return await use_case(user_data, user_data.password)
 

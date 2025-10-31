@@ -109,7 +109,25 @@ class BaseUser(BaseModel):
         return value
 
 
+class UserRegister(BaseUser):
+    """Schema for public user registration - only creates regular users"""
+    password: str = Field(exclude=True, min_length=8)
+    
+    def to_entity(self, hashed_password: str):
+        from app.domain.entities.user import User
+        return User(
+            name=self.name,
+            surname=self.surname,
+            email=self.email,
+            age=self.age,
+            phone=self.phone,
+            role=UserRole.user,  # Always user role for public registration
+            hashed_password=hashed_password
+        )
+
+
 class UserItemCreate(BaseUser):
+    """Schema for admin user creation - can specify any role"""
     password: str = Field(exclude=True, min_length=8)
     role: UserRole | None = None
     
