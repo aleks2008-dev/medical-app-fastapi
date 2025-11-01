@@ -21,12 +21,12 @@ class UpdateUser:
         password: Optional[str] = None,
         disabled: Optional[bool] = None
     ) -> User:
-        # Проверяем существование пользователя
+        # Cheking existing user
         existing_user = await self.user_repository.get(id=user_id)
         if not existing_user:
             raise UserNotFoundError(user_id)
         
-        # Подготавливаем данные для обновления
+        # Preparing data for updating
         updates = {}
         if name is not None:
             updates["name"] = name
@@ -45,7 +45,7 @@ class UpdateUser:
         if disabled is not None:
             updates["disabled"] = disabled
         
-        # Обновляем пользователя
+        # Updating user
         updated_user = await self.user_repository.update(str(user_id), **updates)
         if not updated_user:
             raise UserNotFoundError(user_id)

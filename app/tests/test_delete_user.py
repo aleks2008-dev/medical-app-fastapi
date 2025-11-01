@@ -42,16 +42,16 @@ def delete_user_use_case(user_repository):
 
 @pytest.mark.asyncio
 async def test_delete_user_success(delete_user_use_case, user_repository):
-    # Создаем пользователя
+    # Create user
     user = create_user(name="John", surname="Doe")
     await user_repository.add(user)
     
-    # Удаляем пользователя
+    # Delete user
     result = await delete_user_use_case(user.id)
     
     assert result is True
     
-    # Проверяем что пользователь удален
+    # Chek what user delete
     deleted_user = await user_repository.get(id=user.id)
     assert deleted_user is None
 

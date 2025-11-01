@@ -19,12 +19,12 @@ class UpdateDoctor:
         category: Optional[CategoryEnum] = None,
         password: Optional[str] = None
     ) -> Doctor:
-        # Проверяем существование врача
+        # Chek existing doctor
         existing_doctor = await self.doctor_repository.get(id=doctor_id)
         if not existing_doctor:
             raise DoctorNotFoundError(doctor_id)
         
-        # Подготавливаем данные для обновления
+        # Preparing data for udating
         updates = {}
         if name is not None:
             updates["name"] = name
@@ -39,7 +39,7 @@ class UpdateDoctor:
         if password is not None:
             updates["password"] = get_password_hash(password)
         
-        # Обновляем врача
+        # ОUpdating doctor
         updated_doctor = await self.doctor_repository.update(str(doctor_id), **updates)
         if not updated_doctor:
             raise DoctorNotFoundError(doctor_id)

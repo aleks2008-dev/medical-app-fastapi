@@ -18,8 +18,7 @@ class CreateAppointment:
         self.appointment_repository = appointment_repository
 
     async def __call__(self, appointment: Appointment) -> Appointment:
-        await self.appointment_repository.add(appointment)  # Это равносильно
-                            # await MongoDoctorRepository().add(doctor)
+        await self.appointment_repository.add(appointment)  # This is equivalent to await MongoDoctorRepository().add(doctor)
         return appointment
 
 class ListAppointments:

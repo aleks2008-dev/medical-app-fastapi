@@ -30,7 +30,7 @@ def test_doctor_item_create_invalid_age():
         DoctorItemCreate(
             name="John",
             surname="Doe",
-            age=-5,  # Недопустимый возраст
+            age=-5,  # Invalid age
             specialization="Cardiology",
             category=CategoryEnum.FIRST,
             password="password123"
@@ -39,7 +39,7 @@ def test_doctor_item_create_invalid_age():
 def test_doctor_item_create_short_name():
     with pytest.raises(ValidationError):
         DoctorItemCreate(
-            name="Jo",  # Слишком короткое имя
+            name="Jo",  # short name
             surname="Doe",
             age=35,
             specialization="Cardiology",
@@ -65,7 +65,7 @@ def test_user_item_create_invalid_email():
         UserItemCreate(
             name="Jane",
             surname="Smith",
-            email="invalid-email",  # Недопустимый email
+            email="invalid-email",  # Invalid email
             password="password123"
         )
 
@@ -83,7 +83,7 @@ def test_appointment_item_create_valid():
 
 def test_appointment_date_from_int():
     appointment_data = {
-        "date": 20241225,  # YYYYMMDD формат
+        "date": 20241225,  # YYYYMMDD format
         "doctor_id": uuid4(),
         "user_id": uuid4(),
         "room_id": uuid4()

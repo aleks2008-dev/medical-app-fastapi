@@ -49,11 +49,11 @@ def update_user_use_case(user_repository):
 
 @pytest.mark.asyncio
 async def test_update_user_success(update_user_use_case, user_repository):
-    # Создаем пользователя
+    # Create user
     user = create_user(name="John", surname="Doe")
     await user_repository.add(user)
     
-    # Обновляем пользователя
+    # Update user
     updated_user = await update_user_use_case(
         user_id=user.id,
         name="Jane",
@@ -64,7 +64,7 @@ async def test_update_user_success(update_user_use_case, user_repository):
     assert updated_user.name == "Jane"
     assert updated_user.age == 25
     assert updated_user.phone == "+1234567890"
-    assert updated_user.surname == "Doe"  # Не изменилось
+    assert updated_user.surname == "Doe"  # Not changed
 
 @pytest.mark.asyncio
 async def test_update_nonexistent_user(update_user_use_case):
@@ -78,11 +78,11 @@ async def test_update_nonexistent_user(update_user_use_case):
 
 @pytest.mark.asyncio
 async def test_update_user_role(update_user_use_case, user_repository):
-    # Создаем пользователя
+    # Create user
     user = create_user(role=UserRole.user)
     await user_repository.add(user)
     
-    # Обновляем роль
+    # Update role
     updated_user = await update_user_use_case(
         user_id=user.id,
         role=UserRole.admin
@@ -92,11 +92,11 @@ async def test_update_user_role(update_user_use_case, user_repository):
 
 @pytest.mark.asyncio
 async def test_update_user_disable(update_user_use_case, user_repository):
-    # Создаем пользователя
+    # Create user
     user = create_user(disabled=False)
     await user_repository.add(user)
     
-    # Отключаем пользователя
+    # Disconected user
     updated_user = await update_user_use_case(
         user_id=user.id,
         disabled=True

@@ -36,7 +36,7 @@ class AuthService:
         access_token = create_access_token(data={"sub": str(user.id)})
         refresh_token = await create_refresh_token(data={"sub": str(user.id)})
         
-        # Сохраняем данные сессии
+        # Save data session
         session_data = {
             "user_id": str(user.id),
             "email": user.email,
@@ -52,7 +52,7 @@ class AuthService:
         }
 
     async def register_user(self, name: str, surname: str, email: str, password: str, phone: str = None) -> User:
-        # Проверяем, существует ли пользователь
+        # Checking if the user exists
         existing_user = await self.user_repository.get_by_email(email)
         if existing_user:
             raise HTTPException(
@@ -60,7 +60,7 @@ class AuthService:
                 detail="User with this email already exists"
             )
         
-        # Создаем нового пользователя
+        # Create new user
         hashed_password = self.password_hasher.hash(password)
         user = User(
             name=name,
@@ -79,7 +79,7 @@ class AuthService:
         try:
             user_id = await verify_token(refresh_token)
             
-            # Проверяем, что refresh токен сохранен в Redis
+            # Chek, what refresh токеn save в Redis
             if not await verify_refresh_token(refresh_token, user_id):
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
@@ -93,10 +93,10 @@ class AuthService:
                     detail="User not found"
                 )
             
-            # Отзываем старый refresh токен
+            # Revoke old refresh token
             await token_storage.revoke_refresh_token(user_id)
             
-            # Создаем новые токены
+            # Create new tokens
             return await self.create_tokens(user)
         except Exception:
             raise HTTPException(
@@ -107,19 +107,19 @@ class AuthService:
     async def request_password_reset(self, email: str):
         user = await self.user_repository.get_by_email(email)
         if not user:
-            # Не раскрываем информацию о том, существует ли пользователь
+            # We do not disclose information about whether a user exists.
             return {"message": "If user exists, reset email will be sent"}
         
         reset_token = create_reset_token(email)
         
-        # Сохраняем токен в базе данных
+        # Save tokens in database
         await self.user_repository.update(
             str(user.id), 
             reset_token=reset_token,
             reset_token_expires=datetime.now(timezone.utc) + timedelta(hours=1)
         )
         
-        # Отправляем email
+        # Send email
         await send_reset_email(email, reset_token)
         return {"message": "If user exists, reset email will be sent"}
 
@@ -138,14 +138,14 @@ class AuthService:
                 detail="Invalid or expired reset token"
             )
         
-        # Проверяем срок действия токена
+        # Checking the token expiration date
         if user.reset_token_expires and user.reset_token_expires < datetime.now(timezone.utc):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Reset token has expired"
             )
         
-        # Обновляем пароль и очищаем токен
+        # Update your password and clear your token
         hashed_password = self.password_hasher.hash(new_password)
         await self.user_repository.update(
             str(user.id),
@@ -158,10 +158,10 @@ class AuthService:
     
     async def logout_user(self, user_id: str, access_token: str) -> dict:
         """Выход пользователя"""
-        # Отзываем access токен
+        # Revoke the access token
         await revoke_token(access_token)
         
-        # Отзываем сессию и refresh токен
+        # Revoke the session and refresh token
         await token_storage.revoke_user_session(user_id)
         
         return {"message": "Successfully logged out"}

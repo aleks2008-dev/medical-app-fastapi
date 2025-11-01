@@ -32,16 +32,16 @@ def delete_doctor_use_case(doctor_repository):
 
 @pytest.mark.asyncio
 async def test_delete_doctor_success(delete_doctor_use_case, doctor_repository):
-    # Создаем врача
+    # Create doctor
     doctor = create_doctor(name="John", surname="Doe")
     await doctor_repository.add(doctor)
     
-    # Удаляем врача
+    # Delete doctor
     result = await delete_doctor_use_case(doctor.id)
     
     assert result is True
     
-    # Проверяем что врач удален
+    # Chek what doctor delete
     deleted_doctor = await doctor_repository.get(id=doctor.id)
     assert deleted_doctor is None
 

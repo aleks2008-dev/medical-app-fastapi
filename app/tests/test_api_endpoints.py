@@ -17,10 +17,10 @@ def test_root_endpoint():
 
 def test_list_doctors_requires_auth():
     response = client.get("/api/v1/doctors")
-    assert response.status_code == 403  # Forbidden без токена
+    assert response.status_code == 403  # Forbidden without token
 
 def test_auth_endpoints_exist():
-    # Проверяем что эндпоинты существуют (не 404)
+    # Chek what endpoints exist (not 404)
     response = client.post("/api/v1/auth/register", json={})
     assert response.status_code != 404
     
@@ -33,7 +33,7 @@ def test_invalid_endpoint():
 
 def test_openapi_schema():
     response = client.get("/openapi.json")
-    # Может быть ошибка из-за схем, но эндпоинт должен существовать
+    # There might be a schema error, but the endpoint should exist.
     assert response.status_code in [200, 500]
 
 def test_docs_endpoint():

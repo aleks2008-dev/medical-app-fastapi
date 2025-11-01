@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from app.use_cases.auth import AuthService
 from app.api.auth import get_user_repository
@@ -35,16 +35,7 @@ async def register(
         password=user_data.password,
         phone=user_data.phone
     )
-    return UserPublic(
-        id=user.id,
-        name=user.name,
-        surname=user.surname,
-        email=user.email,
-        age=user.age,
-        phone=user.phone,
-        role=user.role,
-        disabled=user.disabled
-    )
+    return UserPublic.model_validate(user)
 
 @router.post("/login", response_model=TokenData)
 async def login(

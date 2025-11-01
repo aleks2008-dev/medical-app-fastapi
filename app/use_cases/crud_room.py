@@ -7,6 +7,5 @@ class CreateRoom:
         self.room_repository = room_repository
 
     async def __call__(self, room: Room) -> Room:
-        await self.room_repository.add(room)  # Это равносильно
-                            # await MongoDoctorRepository().add(doctor)
+        await self.room_repository.add(room)  # This is equivalent to await MongoDoctorRepository().add(doctor)
         return room

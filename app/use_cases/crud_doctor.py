@@ -18,8 +18,7 @@ class CreateDoctor:
         self.doctor_repository = doctor_repository
 
     async def __call__(self, doctor: Doctor) -> Doctor:
-        await self.doctor_repository.add(doctor)  # Это равносильно
-                            # await MongoDoctorRepository().add(doctor)
+        await self.doctor_repository.add(doctor)  # This is equivalent to await MongoDoctorRepository().add(doctor)
         return doctor
 
 class ListDoctors:
@@ -28,5 +27,4 @@ class ListDoctors:
 
     async def __call__(self, skip: int = 0, limit: int = 100) -> list[Doctor]:
         return await self.doctor_repository.list_all(skip=skip, limit=limit)
-    
     

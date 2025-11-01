@@ -7,10 +7,10 @@ class DeleteUser:
         self.user_repository = user_repository
 
     async def __call__(self, user_id: UUID) -> bool:
-        # Проверяем существование пользователя
+        # Chek existing user
         existing_user = await self.user_repository.get(id=user_id)
         if not existing_user:
             raise UserNotFoundError(user_id)
         
-        # Удаляем пользователя
+        # Delete user
         return await self.user_repository.delete(str(user_id))

@@ -42,16 +42,16 @@ def delete_appointment_use_case(appointment_repository):
 
 @pytest.mark.asyncio
 async def test_delete_appointment_success(delete_appointment_use_case, appointment_repository):
-    # Создаем запись
+    # Create appointment
     appointment = create_appointment()
     await appointment_repository.add(appointment)
     
-    # Удаляем запись
+    # Delete appointment
     result = await delete_appointment_use_case(appointment.id)
     
     assert result is True
     
-    # Проверяем что запись удалена
+    # Chek what appointment delete
     deleted_appointment = await appointment_repository.get(id=appointment.id)
     assert deleted_appointment is None
 
