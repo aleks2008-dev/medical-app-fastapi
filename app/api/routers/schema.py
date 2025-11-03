@@ -179,6 +179,12 @@ class CurrentUser(UserPublic):
 
 class RoomItemCreate(BaseModel):
     number: StrictInt | None = Field(default=None, ge=0, le=100)
+    
+    def to_entity(self):
+        from app.domain.entities.room import Room
+        return Room(
+            number=self.number
+        )
 
 
 class RoomItem(RoomItemCreate):

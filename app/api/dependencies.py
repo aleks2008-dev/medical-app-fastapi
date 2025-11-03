@@ -18,7 +18,7 @@ from app.use_cases.update_user import UpdateUser
 from app.use_cases.delete_doctor import DeleteDoctor
 from app.use_cases.delete_user import DeleteUser
 from app.use_cases.delete_appointment import DeleteAppointment
-from app.use_cases.crud_room import CreateRoom
+from app.use_cases.crud_room import CreateRoom, ListRooms
 from app.infrastructure.database.postgres import get_db
 
 async def get_doctor_repository(
@@ -117,3 +117,8 @@ async def create_room_use_case(
     repository: RoomRepository = Depends(get_room_repository)
 ) -> CreateRoom:
     return CreateRoom(repository)
+
+async def list_rooms_use_case(
+    repository: RoomRepository = Depends(get_room_repository)
+) -> ListRooms:
+    return ListRooms(repository)
