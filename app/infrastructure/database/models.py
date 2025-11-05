@@ -70,7 +70,7 @@ class AppointmentORM(Base):
     """ORM model representing an appointment in the database."""
     __tablename__ = "appointments"
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    date: Mapped[DateType] = mapped_column(Date)
+    datetime: Mapped[datetime] = mapped_column(DateTime)
     doctor_id: Mapped[UUID] = mapped_column(ForeignKey('doctors.id', ondelete="CASCADE"))
     doctor: Mapped["DoctorORM"] = relationship(back_populates="appointments")
     user_id: Mapped[UUID] = mapped_column(ForeignKey('users.id', ondelete="CASCADE"))

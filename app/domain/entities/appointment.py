@@ -1,10 +1,10 @@
 from dataclasses import dataclass, field
-from datetime import date
+from datetime import datetime
 from uuid import UUID, uuid4
 
 @dataclass
 class Appointment:
-    date: date
+    datetime: datetime
     doctor_id: UUID
     user_id: UUID
     room_id: UUID
@@ -16,7 +16,7 @@ class Appointment:
     
     def to_dict(self) -> dict:
         return {
-            "date": self.date,
+            "datetime": self.datetime,
             "doctor_id": str(self.doctor_id),
             "user_id": str(self.user_id),
             "room_id": str(self.room_id),
@@ -26,7 +26,7 @@ class Appointment:
     @classmethod
     def from_dict(cls, data: dict) -> 'Appointment':
         return cls(
-            date=data["date"],
+            datetime=data["datetime"],
             doctor_id=UUID(data["doctor_id"]),
             user_id=UUID(data["user_id"]),
             room_id=UUID(data["room_id"]),

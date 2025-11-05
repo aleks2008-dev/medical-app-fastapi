@@ -37,7 +37,7 @@ class PostgresAppointmentRepository(AppointmentRepository):
         try:
             appointment_db = AppointmentORM(
                 id=appointment.id,
-                date=appointment.date,
+                datetime=appointment.datetime,
                 doctor_id=appointment.doctor_id,
                 user_id=appointment.user_id,
                 room_id=appointment.room_id
@@ -101,7 +101,7 @@ class PostgresAppointmentRepository(AppointmentRepository):
 
     def _to_entity(self, appointment_db: AppointmentORM) -> Appointment:
         return Appointment(
-            date=appointment_db.date,
+            datetime=appointment_db.datetime,
             doctor_id=appointment_db.doctor_id,
             user_id=appointment_db.user_id,
             room_id=appointment_db.room_id,

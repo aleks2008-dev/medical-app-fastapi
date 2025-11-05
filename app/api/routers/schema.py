@@ -1,5 +1,5 @@
 import re
-from datetime import date
+from datetime import date, datetime
 from typing import Optional
 
 from pydantic import (
@@ -192,26 +192,15 @@ class RoomItem(RoomItemCreate):
 
 
 class AppointmentItemCreate(BaseModel):
-    date: date
+    datetime: datetime
     doctor_id: UUID
     user_id: UUID
     room_id: UUID
-
-    @field_validator('date', mode='before')
-    def parse_date(cls, value):
-        if isinstance(value, int):
-            # Convert from YYYYMMDD format to date
-            return date(
-                year=value // 10000,
-                month=(value % 10000) // 100,
-                day=value % 100
-            )
-        return value
     
     def to_entity(self):
         from app.domain.entities.appointment import Appointment
         return Appointment(
-            date=self.date,
+            datetime=self.datetime,
             doctor_id=self.doctor_id,
             user_id=self.user_id,
             room_id=self.room_id

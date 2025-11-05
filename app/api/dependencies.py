@@ -107,7 +107,6 @@ async def list_appointments_use_case(
 ) -> ListAppointments:
     return ListAppointments(repository)
 
-
 async def get_room_repository(
     session: AsyncSession = Depends(get_db)
 ) -> RoomRepository:

@@ -1,22 +1,22 @@
 import pytest
 from uuid import UUID, uuid4
-from datetime import date
+from datetime import datetime
 from app.domain.entities.appointment import Appointment
 
 def test_appointment_creation():
     doctor_id = uuid4()
     user_id = uuid4()
     room_id = uuid4()
-    appointment_date = date(2024, 12, 25)
+    appointment_datetime = datetime(2024, 12, 25, 14, 30)
     
     appointment = Appointment(
-        date=appointment_date,
+        datetime=appointment_datetime,
         doctor_id=doctor_id,
         user_id=user_id,
         room_id=room_id
     )
     
-    assert appointment.date == appointment_date
+    assert appointment.datetime == appointment_datetime
     assert appointment.doctor_id == doctor_id
     assert appointment.user_id == user_id
     assert appointment.room_id == room_id
@@ -26,10 +26,10 @@ def test_appointment_to_dict():
     doctor_id = uuid4()
     user_id = uuid4()
     room_id = uuid4()
-    appointment_date = date(2024, 12, 25)
+    appointment_datetime = datetime(2024, 12, 25, 14, 30)
     
     appointment = Appointment(
-        date=appointment_date,
+        datetime=appointment_datetime,
         doctor_id=doctor_id,
         user_id=user_id,
         room_id=room_id
@@ -37,7 +37,7 @@ def test_appointment_to_dict():
     
     appointment_dict = appointment.to_dict()
     
-    assert appointment_dict["date"] == appointment_date
+    assert appointment_dict["datetime"] == appointment_datetime
     assert appointment_dict["doctor_id"] == str(doctor_id)
     assert appointment_dict["user_id"] == str(user_id)
     assert appointment_dict["room_id"] == str(room_id)
@@ -50,7 +50,7 @@ def test_appointment_from_dict():
     appointment_uuid = "550e8400-e29b-41d4-a716-446655440000"
     
     data = {
-        "date": date(2024, 12, 25),
+        "datetime": datetime(2024, 12, 25, 14, 30),
         "doctor_id": doctor_id,
         "user_id": user_id,
         "room_id": room_id,
@@ -59,7 +59,7 @@ def test_appointment_from_dict():
     
     appointment = Appointment.from_dict(data)
     
-    assert appointment.date == date(2024, 12, 25)
+    assert appointment.datetime == datetime(2024, 12, 25, 14, 30)
     assert str(appointment.doctor_id) == doctor_id
     assert str(appointment.user_id) == user_id
     assert str(appointment.room_id) == room_id
