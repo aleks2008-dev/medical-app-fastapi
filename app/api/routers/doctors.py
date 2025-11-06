@@ -37,8 +37,7 @@ async def create_doctor(
 async def list_doctors(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
-    use_case: ListDoctors = Depends(list_doctors_use_case),
-    current_user: User = Depends(get_current_active_user)
+    use_case: ListDoctors = Depends(list_doctors_use_case)
 ):
     return await use_case(skip=skip, limit=limit)
 
