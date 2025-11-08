@@ -42,7 +42,8 @@ class PostgresDoctorRepository(DoctorRepository):
                 age=doctor.age,
                 specialization=doctor.specialization,
                 category=doctor.category,
-                password=doctor.password
+                password=doctor.password,
+                experience_years=doctor.experience_years
             )
             self.session.add(doctor_db)
             await self.session.commit()
@@ -109,6 +110,7 @@ class PostgresDoctorRepository(DoctorRepository):
             specialization=doctor_db.specialization,
             category=doctor_db.category,
             password=doctor_db.password,
+            experience_years=doctor_db.experience_years,
             uuid=doctor_db.id
         )
     

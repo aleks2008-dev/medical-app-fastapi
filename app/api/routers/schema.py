@@ -37,6 +37,7 @@ class DoctorItemCreate(BaseModel):
     specialization: StrictStr = Field(min_length=3)
     category: CategoryEnum
     password: str = Field(exclude=True, min_length=4)
+    experience_years: StrictInt = Field(default=0, ge=0)
 
     @field_validator('age')
     def check_age(cls, value):
@@ -56,7 +57,8 @@ class DoctorItemCreate(BaseModel):
             age=self.age,
             specialization=self.specialization,
             category=self.category,
-            password=self.password
+            password=self.password,
+            experience_years=self.experience_years
         )
 
 
@@ -67,6 +69,7 @@ class DoctorResponse(BaseModel):
     age: StrictInt
     specialization: StrictStr
     category: CategoryEnum
+    experience_years: StrictInt
 
 
 class DoctorItemUpdate(BaseModel):
@@ -77,6 +80,7 @@ class DoctorItemUpdate(BaseModel):
     specialization: StrictStr | None = Field(default=None, min_length=3)
     category: CategoryEnum | None = None
     password: str | None = Field(default=None, min_length=5, exclude=True)
+    experience_years: StrictInt | None = Field(default=None, ge=0)
 
 
 class BaseUser(BaseModel):

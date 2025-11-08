@@ -16,6 +16,7 @@ class Doctor:
     specialization: str
     category: CategoryEnum
     password: str
+    experience_years: int = 0
     uuid: UUID = field(default_factory=uuid4)
     
     @property
@@ -30,6 +31,7 @@ class Doctor:
             "specialization": self.specialization,
             "category": self.category.value,
             "password": self.password,
+            "experience_years": self.experience_years,
             "uuid": str(self.uuid)
         }
     
@@ -42,6 +44,7 @@ class Doctor:
             specialization=data["specialization"],
             category=CategoryEnum(data["category"]),
             password=data["password"],
+            experience_years=data.get("experience_years", 0),
             uuid=UUID(data["uuid"]) if "uuid" in data else uuid4()
         )
     

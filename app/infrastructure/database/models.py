@@ -34,6 +34,7 @@ class DoctorORM(Base):
     specialization: Mapped[str]
     category: Mapped[CategoryEnum]
     password: Mapped[str]
+    experience_years: Mapped[int] = mapped_column(default=0)
 
     appointments: Mapped[list["AppointmentORM"]] = relationship(back_populates="doctor")
 
