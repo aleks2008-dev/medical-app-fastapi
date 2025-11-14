@@ -8,6 +8,7 @@ from app.api.routers.users import router as users_router
 from app.api.routers.appoointments import router as appointments_router
 from app.api.routers.auth import router as auth_router
 from app.api.routers.rooms import router as rooms_router
+from app.api.routers.websocket import router as websocket_router
 
 from app.use_cases.exceptions import DomainException
 import logging
@@ -45,6 +46,7 @@ app.include_router(doctors_router, prefix="/api/v1", tags=["doctors"])
 app.include_router(users_router, prefix="/api/v1", tags=["users"])
 app.include_router(appointments_router, prefix="/api/v1", tags=["appointments"])
 app.include_router(rooms_router, prefix="/api/v1", tags=["rooms"])
+app.include_router(websocket_router, prefix="/api/v1", tags=["websocket"])
 
 
 @app.get("/")

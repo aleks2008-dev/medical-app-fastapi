@@ -1,13 +1,13 @@
 import pytest
 from uuid import uuid4, UUID
-from datetime import date
+from datetime import datetime
 from app.use_cases.delete_appointment import DeleteAppointment
 from app.use_cases.exceptions import AppointmentNotFoundError
 from app.domain.entities.appointment import Appointment
 
 def create_appointment(**kwargs):
     return Appointment(
-        date=kwargs.get('date', date(2024, 12, 25)),
+        datetime=kwargs.get('datetime', datetime(2024, 12, 25, 10, 0)),
         doctor_id=kwargs.get('doctor_id', uuid4()),
         user_id=kwargs.get('user_id', uuid4()),
         room_id=kwargs.get('room_id', uuid4()),

@@ -1,6 +1,6 @@
 import pytest
 from pydantic import ValidationError
-from datetime import date
+from datetime import datetime
 from uuid import uuid4
 from app.api.routers.schema import (
     DoctorItemCreate, 
@@ -71,26 +71,26 @@ def test_user_item_create_invalid_email():
 
 def test_appointment_item_create_valid():
     appointment_data = {
-        "date": date(2024, 12, 25),
+        "datetime": datetime(2024, 12, 25, 10, 30),
         "doctor_id": uuid4(),
         "user_id": uuid4(),
         "room_id": uuid4()
     }
     
     appointment = AppointmentItemCreate(**appointment_data)
-    assert appointment.date == date(2024, 12, 25)
+    assert appointment.datetime == datetime(2024, 12, 25, 10, 30)
     assert isinstance(appointment.doctor_id, type(uuid4()))
 
 def test_appointment_date_from_int():
     appointment_data = {
-        "date": 20241225,  # YYYYMMDD format
+        "datetime": datetime(2024, 12, 25, 14, 0),  # Full datetime
         "doctor_id": uuid4(),
         "user_id": uuid4(),
         "room_id": uuid4()
     }
     
     appointment = AppointmentItemCreate(**appointment_data)
-    assert appointment.date == date(2024, 12, 25)
+    assert appointment.datetime == datetime(2024, 12, 25, 14, 0)
 
 def test_category_enum_values():
     assert CategoryEnum.FIRST == "first"
